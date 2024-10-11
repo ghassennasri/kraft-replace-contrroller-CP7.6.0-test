@@ -42,19 +42,19 @@ From project directory run:
 ```text
 Starting the Docker Compose environment...
 Creating network "kraft-groupama_default" with the default driver
-Creating controller-3 ... done
 Creating controller-1 ... done
 Creating controller-2 ... done
+Creating controller-3 ... done
 Creating broker       ... done
 Creating schema-registry ... done
 Creating connect         ... done
 Creating ksqldb-server   ... done
+Creating ksqldb-cli      ... done
 Creating ksql-datagen    ... done
 Creating control-center  ... done
-Creating ksqldb-cli      ... done
 Waiting for services to be ready...
 Waiting for Kafka broker to be ready...
-[2024-10-11 08:34:21,574] INFO AdminClientConfig values: 
+[2024-10-11 09:09:08,422] INFO AdminClientConfig values: 
         auto.include.jmx.reporter = true
         bootstrap.servers = [broker:29092]
         client.dns.lookup = use_all_dns_ips
@@ -125,13 +125,16 @@ Waiting for Kafka broker to be ready...
         ssl.truststore.password = null
         ssl.truststore.type = JKS
  (org.apache.kafka.clients.admin.AdminClientConfig)
-[2024-10-11 08:34:22,380] INFO Kafka version: 7.6.0-ccs (org.apache.kafka.common.utils.AppInfoParser)
-[2024-10-11 08:34:22,380] INFO Kafka commitId: 1991cb733c81d679 (org.apache.kafka.common.utils.AppInfoParser)
-[2024-10-11 08:34:22,380] INFO Kafka startTimeMs: 1728635662375 (org.apache.kafka.common.utils.AppInfoParser)
-[2024-10-11 08:34:22,426] INFO [AdminClient clientId=adminclient-1] Node -1 disconnected. (org.apache.kafka.clients.NetworkClient)
-[2024-10-11 08:34:22,430] WARN [AdminClient clientId=adminclient-1] Connection to node -1 (broker/172.28.0.5:29092) could not be established. Broker may not be available. (org.apache.kafka.clients.NetworkClient)
-[2024-10-11 08:34:22,559] INFO [AdminClient clientId=adminclient-1] Node -1 disconnected. (org.apache.kafka.clients.NetworkClient)
-[2024-10-11 08:34:22,559] WARN [AdminClient clientId=adminclient-1] Connection to node -1 (broker/172.28.0.5:29092) could not be established. Broker may not be available. (org.apache.kafka.clients.NetworkClient)
+[2024-10-11 09:09:09,335] INFO Kafka version: 7.6.0-ccs (org.apache.kafka.common.utils.AppInfoParser)
+[2024-10-11 09:09:09,343] INFO Kafka commitId: 1991cb733c81d679 (org.apache.kafka.common.utils.AppInfoParser)
+[2024-10-11 09:09:09,344] INFO Kafka startTimeMs: 1728637749322 (org.apache.kafka.common.utils.AppInfoParser)
+[2024-10-11 09:09:09,496] INFO [AdminClient clientId=adminclient-1] Node -1 disconnected. (org.apache.kafka.clients.NetworkClient)
+[2024-10-11 09:09:09,502] WARN [AdminClient clientId=adminclient-1] Connection to node -1 (broker/172.30.0.5:29092) could not be established. Broker may not be available. (org.apache.kafka.clients.NetworkClient)
+[2024-10-11 09:09:09,635] INFO [AdminClient clientId=adminclient-1] Node -1 disconnected. (org.apache.kafka.clients.NetworkClient)
+[2024-10-11 09:09:09,636] WARN [AdminClient clientId=adminclient-1] Connection to node -1 (broker/172.30.0.5:29092) could not be established. Broker may not be available. (org.apache.kafka.clients.NetworkClient)
+[2024-10-11 09:09:09,739] INFO [AdminClient clientId=adminclient-1] Node -1 disconnected. (org.apache.kafka.clients.NetworkClient)
+[2024-10-11 09:09:09,739] WARN [AdminClient clientId=adminclient-1] Connection to node -1 (broker/172.30.0.5:29092) could not be established. Broker may not be available. (org.apache.kafka.clients.NetworkClient)
+[2024-10-11 09:09:09,942] INFO [AdminClient clientId=adminclient-1] Node -1 disconnected. (org.apache.kafka.clients.NetworkClient)
 Using log4j config /etc/kafka/log4j.properties
 Waiting for Schema Registry to be ready...
 Waiting for Connect to be ready...
@@ -163,18 +166,19 @@ Creating a ksqlDB stream for the 'orders' topic...
 Checking Kafka metadata quorum status and waiting for lag to be zero for nodes 1, 2, and 4...
 Lag is zero for nodes 1, 2, and 4. Proceeding with the next steps.
 ClusterId:              MkU3OEVBNTcwNTJENDM2Qg
-LeaderId:               1
-LeaderEpoch:            3
-HighWatermark:          876
+LeaderId:               3
+LeaderEpoch:            2
+HighWatermark:          877
 MaxFollowerLag:         0
-MaxFollowerLagTimeMs:   0
+MaxFollowerLagTimeMs:   171
 CurrentVoters:          [1,2,3]
 CurrentObservers:       [4]
 NodeId  LogEndOffset    Lag     LastFetchTimestamp      LastCaughtUpTimestamp   Status  
-1       880             0       1728635786095           1728635786095           Leader  
-2       880             0       1728635785921           1728635785921           Follower
-3       880             0       1728635785923           1728635785923           Follower
-4       880             0       1728635785918           1728635785918           Observer
+3       881             0       1728637873686           1728637873686           Leader  
+1       881             0       1728637873400           1728637873400           Follower
+2       881             0       1728637873399           1728637873399           Follower
+4       881             0       1728637873396           1728637873396           Observer
+Now starting the migration process...
 Stopping controller-3...
 Stopping controller-3 ... done
 Modifying controller.quorum.voters for controller-1...
@@ -187,44 +191,51 @@ Restarting controller-2 ... done
 Restarting broker...
 Restarting broker ... done
 Starting the Docker Compose environment with the migrate profile...
-controller-1 is up-to-date
 controller-2 is up-to-date
+controller-1 is up-to-date
 broker is up-to-date
 schema-registry is up-to-date
 connect is up-to-date
+Creating controller-3_migrated ... 
 ksqldb-server is up-to-date
 ksqldb-cli is up-to-date
 ksql-datagen is up-to-date
-control-center is up-to-date
 Creating controller-3_migrated ... done
 Restarting control-center ... done
-Checking if the latest offset in the 'orders' topic is increasing...
-[2024-10-11 08:37:03,287] WARN [AdminClient clientId=GetOffsetShell] Connection to node -1 (broker/172.28.0.4:29092) could not be established. Node may not be available. (org.apache.kafka.clients.NetworkClient)
-[2024-10-11 08:37:03,393] WARN [AdminClient clientId=GetOffsetShell] Connection to node -1 (broker/172.28.0.4:29092) could not be established. Node may not be available. (org.apache.kafka.clients.NetworkClient)
-[2024-10-11 08:37:03,595] WARN [AdminClient clientId=GetOffsetShell] Connection to node -1 (broker/172.28.0.4:29092) could not be established. Node may not be available. (org.apache.kafka.clients.NetworkClient)
-[2024-10-11 08:37:03,897] WARN [AdminClient clientId=GetOffsetShell] Connection to node -1 (broker/172.28.0.4:29092) could not be established. Node may not be available. (org.apache.kafka.clients.NetworkClient)
-[2024-10-11 08:37:04,299] WARN [AdminClient clientId=GetOffsetShell] Connection to node -1 (broker/172.28.0.4:29092) could not be established. Node may not be available. (org.apache.kafka.clients.NetworkClient)
-[2024-10-11 08:37:05,204] WARN [AdminClient clientId=GetOffsetShell] Connection to node -1 (broker/172.28.0.4:29092) could not be established. Node may not be available. (org.apache.kafka.clients.NetworkClient)
-[2024-10-11 08:37:06,312] WARN [AdminClient clientId=GetOffsetShell] Connection to node -1 (broker/172.28.0.4:29092) could not be established. Node may not be available. (org.apache.kafka.clients.NetworkClient)
-Initial offset: 2981042
-Latest offset after waiting: 2981042
-The offset is not increasing. Datagen connector may have stopped producing to the 'orders' topic.
+[2024-10-11 09:11:50,656] WARN [AdminClient clientId=adminclient-1] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available. (org.apache.kafka.clients.NetworkClient)
+[2024-10-11 09:11:50,762] WARN [AdminClient clientId=adminclient-1] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available. (org.apache.kafka.clients.NetworkClient)
+[2024-10-11 09:11:50,964] WARN [AdminClient clientId=adminclient-1] Connection to node -1 (localhost/127.0.0.1:9092) could not be established. Node may not be available. (org.apache.kafka.clients.NetworkClient)
 ClusterId:              MkU3OEVBNTcwNTJENDM2Qg
 LeaderId:               2
 LeaderEpoch:            10
-HighWatermark:          950
+HighWatermark:          923
 MaxFollowerLag:         0
-MaxFollowerLagTimeMs:   413
+MaxFollowerLagTimeMs:   369
 CurrentVoters:          [1,2,3]
 CurrentObservers:       [4]
 NodeId  LogEndOffset    Lag     LastFetchTimestamp      LastCaughtUpTimestamp   Status  
-2       954             0       1728635844290           1728635844290           Leader  
-1       954             0       1728635843867           1728635843867           Follower
-3       954             0       1728635843865           1728635843865           Follower
-4       954             0       1728635843864           1728635843864           Observer
+2       928             0       1728637918445           1728637918445           Leader  
+1       928             0       1728637918279           1728637918279           Follower
+3       928             0       1728637918278           1728637918278           Follower
+4       928             0       1728637918278           1728637918278           Observer
+Migration is complete. Waiting 360s for the connect, KSQL producers to retry/consumers to rebalance and resume...
 Checking if the latest offset in the 'orders' topic is increasing...
-Initial offset: 5206672
-Latest offset after waiting: 5647240
+Initial offset: 3390986
+Latest offset after waiting: 3815034
 The offset is increasing. Datagen connector is still producing to the 'orders' topic.
-Migration is complete
+Finding the consumer group associated with the 'orders' topic...
+Found consumer group: _confluent-ksql-default_transient_transient_ORDERS_STREAM_8404751841995735271_1728637868182
+Monitoring the consumer lag for the consumer group: _confluent-ksql-default_transient_transient_ORDERS_STREAM_8404751841995735271_1728637868182 on topic: 'orders'...
+Initial lag: 47745
+Current lag after 10 seconds: 66309
+The lag is increasing. Migration may have caused a rebalance.
+Current lag after 20 seconds: 24044
+The lag is decreasing.
+Current lag after 30 seconds: 46985
+The lag is increasing. Migration may have caused a rebalance.
+Current lag after 40 seconds: 1968
+The lag is decreasing.
+Current lag after 50 seconds: 25211
+The lag is increasing. Migration may have caused a rebalance.
+The lag has been consistently decreasing over the monitoring period.
 ```

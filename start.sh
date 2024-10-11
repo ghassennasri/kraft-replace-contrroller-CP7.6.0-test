@@ -116,8 +116,10 @@ check_lag_decrease() {
         if [ "$CURRENT_LAG" -lt "$PREVIOUS_LAG" ]; then
             echo "The lag is decreasing."
             PREVIOUS_LAG=$CURRENT_LAG
+        elif [ "$CURRENT_LAG" -gt "$PREVIOUS_LAG" ]; then
+            echo "The lag is increasing. Migration may have caused a rebalance."
         else
-            echo "The lag is not decreasing. The consumer may not be consuming as expected."
+            echo "The lag has not changed."
             return 1
         fi
     done
@@ -125,6 +127,9 @@ check_lag_decrease() {
     echo "The lag has been consistently decreasing over the monitoring period."
     return 0
 }
+   
+
+ 
 # Function to check Kafka metadata quorum and lag for nodes 1, 2, and 4
 check_quorum_and_lag() {
     echo "Checking Kafka metadata quorum status and waiting for lag to be zero for nodes 1, 2, and 4..."
